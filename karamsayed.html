@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>AcadPilot - Your AI Academic Ally</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+      async></script>
+    <style>
+      :root {
+        --bg: #0a0f14;
+        --card: #11161c;
+        --text: #e4e4e4;
+        --accent: #4fc3f7;
+        --hover: #29b6f6;
+        --border: #1f2630;
+      }
+
+      body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 2rem;
+        position: relative;
+      }
+
+      .robot {
+        width: 90px;
+        display: block;
+        margin: 0 auto 10px auto;
+        animation: hover 2.5s ease-in-out infinite;
+      }
+
+      @keyframes hover {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-18px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+
+      header h1 {
+        font-size: 2.5rem;
+        color: var(--accent);
+        margin: 0;
+      }
+
+      header p {
+        font-size: 1.2rem;
+        color: #aaa;
+      }
+
+      .container {
+        background-color: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+        width: 100%;
+        max-width: 700px;
+        box-shadow: 0 0 12px rgba(79, 195, 247, 0.15);
+        margin-bottom: 2rem;
+      }
+
+      textarea,
+      input[type='text'] {
+        width: 100%;
+        padding: 12px;
+        background: #0a0f14;
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        margin-top: 10px;
+        font-size: 1rem;
+      }
+
+      button {
+        background-color: var(--accent);
+        color: white;
+        padding: 10px 18px;
+        border: none;
+        border-radius: 6px;
+        margin-top: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+      }
+
+      button:hover {
+        background-color: var(--hover);
+        transform: scale(1.02);
+      }
+
+      .reply {
+        margin-top: 15px;
+        padding: 12px;
+        background: #0a0f14;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        white-space: pre-wrap;
+      }
+
+      .features {
+        text-align: center;
+        max-width: 700px;
+        color: #bbb;
+        line-height: 1.6;
+        font-size: 1rem;
+        margin-bottom: 3rem;
+      }
+
+      .about {
+        max-width: 700px;
+        background: var(--card);
+        padding: 20px;
+        border-radius: 10px;
+        color: #ccc;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        border: 1px solid var(--border);
+        margin-bottom: 3rem;
+      }
+
+      footer {
+        text-align: center;
+        font-size: 0.9rem;
+        color: #888;
+        margin-top: 3rem;
+      }
+
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        transition: opacity 0.2s;
+        opacity: 0;
+      }
+      .modal-overlay.active {
+        display: flex;
+        opacity: 1;
+        animation: fadeIn 0.2s;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .modal-box {
+        background: var(--card);
+        border-radius: 14px;
+        box-shadow: 0 0 24px rgba(0, 0, 0, 0.25);
+        padding: 32px 24px 24px 24px;
+        max-width: 500px;
+        width: 95vw;
+        border: 1px solid var(--border);
+        position: relative;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      .modal-content {
+        padding: 0;
+        background: none;
+        box-shadow: none;
+        margin-bottom: 0;
+        border: none;
+      }
+      .modal-close {
+        position: absolute;
+        top: 12px;
+        right: 18px;
+        background: none;
+        border: none;
+        color: #aaa;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+      @media (max-width: 600px) {
+        .modal-box {
+          padding: 16px 6px;
+        }
+      }
+      body.modal-open {
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>🤖 AcadPilot</h1>
+      <p>Your AI Academic Ally</p>
+    </header>
+
+    <div class="features">
+      <p>
+        💬 Chat with AcadPilot for help with homework, explanations, or
+        problem-solving.
+      </p>
+      <p>
+        🧠 Use the Assignment Helper to generate, review, and revise detailed
+        academic responses.
+      </p>
+      <p>📄 Download clean, formatted assignment PDFs for submission.</p>
+    </div>
+
+    <button id="launchAssignment" style="margin-bottom: 1.5rem">
+      ✏️ Launch Assignment Helper
+    </button>
+
+    <div class="container">
+      <h2>💬 Chat Mode</h2>
+      <textarea
+        id="chatPrompt"
+        rows="4"
+        placeholder="Ask your study question..."></textarea>
+      <button onclick="sendChat()">Send</button>
+      <div id="chatReply" class="reply"></div>
+    </div>
+
+    <div class="modal-overlay" id="assignmentModal">
+      <div class="modal-box">
+        <button class="modal-close" onclick="closeAssignmentModal()">
+          &times;
+        </button>
+        <div class="modal-content">
+          <h2>✏️ Assignment Helper</h2>
+          <input
+            type="text"
+            id="assignmentTitle"
+            placeholder="Assignment Title" />
+          <input type="text" id="studentName" placeholder="Your Name" />
+          <input type="text" id="rollNo" placeholder="Roll Number" />
+          <input type="text" id="year" placeholder="Academic Year" />
+          <textarea
+            id="assignmentQuestion"
+            rows="4"
+            placeholder="Assignment question..."></textarea>
+          <button onclick="generateAnswer()">Generate Answer</button>
+          <div id="assignmentAnswer" class="reply"></div>
+          <button onclick="downloadPDF()">📄 Download PDF</button>
+          <button onclick="downloadDOCX()">📝 Download DOCX</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="about">
+      <h3>👨‍💻 Developed By:</h3>
+      <p>
+        <strong>Karam Sayed</strong> - Electronics & Computer Science
+        Engineering student at University of Mumbai.
+      </p>
+
+      <h3>📚 About AcadPilot:</h3>
+      <p>
+        AcadPilot is an AI-powered academic assistant developed to simplify
+        student life by offering intelligent support for queries, assignments,
+        and learning materials. Built with the LLaMA 3 model, it ensures fast,
+        context-aware responses. The tool enables assignment drafting, chat
+        assistance, and downloadable answers as clean PDFs and DOCX.
+      </p>
+      <p>
+        Designed for simplicity, speed, and educational excellence, AcadPilot
+        brings AI into the hands of learners for everyday academic needs.
+      </p>
+    </div>
+
+    <footer>
+      <p>© 2025 Karam Sayed. All Rights Reserved.</p>
+      <p>
+        Contact:
+        <a href="mailto:karam.sayed2024@gmail.com" style="color: #4fc3f7">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            style="vertical-align: middle; margin-right: 4px"
+            viewBox="0 0 24 24"
+            fill="currentColor">
+            <path
+              d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 2v.01L12 13 4 6.01V6h16zM4 20v-9.99l7.99 7.99c.39.39 1.02.39 1.41 0L20 10.01V20H4z" />
+          </svg>
+          karam.sayed2024@gmail.com
+        </a>
+        | GitHub:
+        <a
+          href="https://github.com/Kar46"
+          target="_blank"
+          rel="noopener"
+          style="color: #4fc3f7">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            style="vertical-align: middle; margin-right: 4px"
+            viewBox="0 0 24 24"
+            fill="currentColor">
+            <path
+              d="M12 2C6.48 2 2 6.58 2 12.26c0 4.49 2.87 8.3 6.84 9.64.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.62-3.37-1.36-3.37-1.36-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1.01.07 1.54 1.06 1.54 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.74-.1-.26-.45-1.3.1-2.7 0 0 .84-.28 2.75 1.04A9.38 9.38 0 0 1 12 6.84c.85.004 1.71.12 2.51.35 1.91-1.32 2.75-1.04 2.75-1.04.55 1.4.2 2.44.1 2.7.64.71 1.03 1.62 1.03 2.74 0 3.94-2.34 4.81-4.57 5.07.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12.26C22 6.58 17.52 2 12 2z" />
+          </svg>
+          GitHub/Karam Sayed
+        </a>
+      </p>
+    </footer>
+
+    <script>
+      const BASE_URL = 'https://backend-api-554236624694.asia-south1.run.app';
+      let latestAnswer = '';
+
+      async function sendChat() {
+        const prompt = document.getElementById('chatPrompt').value;
+        const res = await fetch(`${BASE_URL}/chat`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt }),
+        });
+        const data = await res.json();
+        document.getElementById('chatReply').innerHTML =
+          data.reply || 'No reply';
+        MathJax.typeset();
+      }
+
+      async function generateAnswer() {
+        const question = document.getElementById('assignmentQuestion').value;
+        const res = await fetch(`${BASE_URL}/assignment`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question }),
+        });
+        const data = await res.json();
+        latestAnswer = data.answer;
+        document.getElementById('assignmentAnswer').innerText =
+          latestAnswer || 'No answer generated.';
+        MathJax.typeset();
+      }
+
+      async function downloadPDF() {
+        const name = document.getElementById('studentName').value;
+        const rollNo = document.getElementById('rollNo').value;
+        const year = document.getElementById('year').value;
+        const question = document.getElementById('assignmentQuestion').value;
+        const title = document.getElementById('assignmentTitle').value;
+
+        const res = await fetch(`${BASE_URL}/generate-pdf`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, rollNo, year, question, title }),
+        });
+
+        if (!res.ok) {
+          alert('PDF generation failed.');
+          return;
+        }
+
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'assignment.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }
+
+      async function downloadDOCX() {
+        const name = document.getElementById('studentName').value;
+        const rollNo = document.getElementById('rollNo').value;
+        const year = document.getElementById('year').value;
+        const question = document.getElementById('assignmentQuestion').value;
+        const title = document.getElementById('assignmentTitle').value;
+
+        const res = await fetch(`${BASE_URL}/generate-docx`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, rollNo, year, question, title }),
+        });
+
+        if (!res.ok) {
+          alert('DOCX generation failed.');
+          return;
+        }
+
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'assignment.docx';
+        link.click();
+        URL.revokeObjectURL(url);
+      }
+
+      document
+        .getElementById('launchAssignment')
+        .addEventListener('click', () => {
+          document.getElementById('assignmentModal').classList.add('active');
+          document.body.classList.add('modal-open');
+        });
+
+      function closeAssignmentModal() {
+        document.getElementById('assignmentModal').classList.remove('active');
+        document.body.classList.remove('modal-open');
+      }
+
+      document
+        .getElementById('assignmentModal')
+        .addEventListener('click', function (e) {
+          if (e.target === this) {
+            closeAssignmentModal();
+          }
+        });
+
+      document.addEventListener('keydown', function (e) {
+        if (
+          e.key === 'Escape' &&
+          document
+            .getElementById('assignmentModal')
+            .classList.contains('active')
+        ) {
+          closeAssignmentModal();
+        }
+      });
+    </script>
+  </body>
+</html>
