@@ -1,51 +1,34 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-# Karam-ai-powered-todo
-=======
-# ai-academic-helper
+
 # AcadPilot - AI-Powered Academic Assistant
 
-AcadPilot is a cloud-native web application that assists students with academic tasks. It offers intelligent chat support and automated assignment generation using LLaMA 3 (via Groq API). The app allows exporting generated content as PDF and DOCX files. The entire backend is containerized and deployed on Google Cloud Run for scalability and reliability.
+AcadPilot is a fully cloud-native web application that leverages AI to assist students with academic tasks. It integrates with LLaMA 3 to offer intelligent responses for questions and auto-generates assignment content. The project is entirely deployed and orchestrated using Google Cloud Platform services to ensure scalability, reliability, and performance.
 
 ---
 
 ## Key Features
 
-- AI Chat: Ask academic questions and get contextual answers.
-- Assignment Helper: Auto-generates structured, clean assignment content.
-- Export Options: Download responses as well-formatted PDF or DOCX files.
-- Cloud-Native: Fully deployed using Google Cloud infrastructure.
+- **AI Chat System**: Ask academic queries and get instant responses using LLaMA 3.
+- **Assignment Helper**: Automatically generates detailed academic answers.
+- **Multi-format Export**: Download responses as clean, formatted PDF or DOCX files.
+- **Modern UI**: Simple and responsive frontend built with HTML/CSS/JS.
 
 ---
 
-## Cloud Services Used
+## Google Cloud Services Utilized
 
-| Google Cloud Service      | Purpose                                                   |
-|--------------------------|-----------------------------------------------------------|
-| Cloud Run                | Hosts the Node.js backend as a stateless, scalable API    |
-| Artifact Registry        | Stores Docker container images securely                   |
-| Cloud Build (Optional)   | Builds and deploys images automatically                   |
-| Cloud Storage (Optional) | Hosts static frontend files (HTML, CSS, JS)               |
-
----
-
-## Architecture Overview
-
-1. **Frontend**: HTML/CSS/JS interface that communicates with the backend API.
-2. **Backend**: Node.js + Express server, uses Groq’s LLaMA 3 via REST API.
-3. **PDF/DOCX**: Generated using PDFKit and `docx` libraries.
-4. **Deployment**: Dockerized and deployed to Google Cloud Run.
+| GCP Service              | Role & Usage                                                                 |
+|--------------------------|------------------------------------------------------------------------------|
+| **Cloud Run**            | Hosts the backend API (Node.js + Express) as a serverless container.        |
+| **Artifact Registry**    | Stores Docker images used for deployment.                                    |
+| **Cloud Storage** | Used for hosting static frontend files like HTML, CSS, and assets.           |
+| **IAM & Permissions**    | Manages access controls to services and deployments.                         |
+| **Cloud Logging**        | Monitors application performance and error logs in real time.                |
 
 ---
 
-## Setup Instructions
+## System Architecture
 
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/YOUR_USERNAME/acadpilot.git
-cd acadpilot
->>>>>>> 75d217ba1d001c5c8e620177c2fce02e46d3b901
-=======
-# AcadPilot-Your_AI_Academic_Ally
->>>>>>> 0d93ce66296116e478bb71147fde2d7ca1638fe8
+Frontend (HTML/CSS/JS) >
+Node.js + Express Backend (AI Chat + Assignment Generator) >
+Groq API (LLaMA 3) PDFKit / docx Libraries >
+Deployment via Docker → Container pushed to Artifact Registry → Deployed on Cloud Run
