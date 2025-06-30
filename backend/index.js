@@ -174,9 +174,9 @@ app.post('/generate-docx', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('🚀 AcadPilot backend is running!');
+  res.send('AcadPilot backend is running!');
 });
 
 app.listen(port, () => {
-  console.log(`✅ Server ready at http://localhost:${port}`);
+  console.log(`Server ready at http://localhost:${port}`);
 });
